@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>地方文物館參觀人次統計含所在地</title>
+</head>
+<body>
+    <header></header>
+    <section></section>
+    <script>
+        async function populate() {
+            const requestURL = 'museum.json';
+            const request = new Request(requestURL);
+            const response = await fetch(request);
+            const museums = await response.json();
+
+            populateHeader(museums);
+            populateParking(museums);
+        }
+        function populateHeader(obj) {
+            const header = document.querySelector('header');
+            const myH1 = document.createElement('h1');
+            const myH2 = document.createElement('h2');
+            myH1.textContent = `地方文物館參觀人次統計含所在地`;
+            myH2.textContent = `紀錄日期:20211006 年度:109`
+            header.appendChild(myH1);
+            header.appendChild(myH2);
+        }
+
+        function populateParking(obj) {
+            const section = document.querySelector('section');
+            const datas = obj['result']['records'];
+
+            for (const data of datas) {
+                const myArticle = document.createElement('article');
+                const myH3 = document.createElement('h3');
+                var i;
+                var myPara = [];
+                for (i = 0; i < 18; i++){
+                    var newLength = myPara.push(document.createElement('p'));
+                }
+                
+                myH3.textContent = `${data.縣市}`;
+                i = 0;
+                for (var key in data) {
+                    myPara[i++].textContent = `${key}: ${data[key]}`;
+                }
+
+                myArticle.appendChild(myH3);
+                for (i = 4; i < 18; i++){
+                    myArticle.appendChild(myPara[i]);
+                }
+                section.appendChild(myArticle);
+            }
+        }
+
+        populate();
+    </script>
+</body>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>路邊停車資訊</title>
+</head>
+<body>
+    <header></header>
+    <section></section>
+    <script>
+        async function populate() {
+
+            const requestURL = 'parkinglots.json';
+            const request = new Request(requestURL);
+
+            const response = await fetch(request);
+            const parkinglots = await response.json();
+
+            populateHeader(parkinglots);
+            populateParking(parkinglots);
+
+        }
+        function populateHeader(obj) {
+            const header = document.querySelector('header');
+            const myH1 = document.createElement('h1');
+            myH1.textContent = `路邊停車資訊`;
+            header.appendChild(myH1);
+        }
+
+        function populateParking(obj) {
+            const section = document.querySelector('section');
+            const roads = obj['detail'];
+
+            for (const road of roads) {
+                const myArticle = document.createElement('article');
+                const myH3 = document.createElement('h3');
+                const myPara1 = document.createElement('p');
+                const myPara2 = document.createElement('p');
+
+                myH3.textContent = `路段代碼: ${road.rdid}`;
+                myPara1.textContent = `剩餘車格數: ${road.lavecnt}`;
+                myPara2.textContent = `最後更新時間: ${road.lasttime}`;
+
+                myArticle.appendChild(myH3);
+                myArticle.appendChild(myPara1);
+                myArticle.appendChild(myPara2);
+
+                section.appendChild(myArticle);
+            }
+        }
+
+        populate();
+    </script>
+</body>
+</html>

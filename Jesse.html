@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>各機場、港口入出境人數統計資料</title>
+</head>
+<body>
+    <header></header>
+    <section></section>
+    <script>
+        async function populate() {
+            const requestURL = 'port.json';
+            const request = new Request(requestURL);
+
+            const response = await fetch(request);
+            const ports = await response.json();
+
+            populateHeader(ports);
+            populateParking(ports);
+        }
+        function populateHeader(obj) {
+            const header = document.querySelector('header');
+            const myH1 = document.createElement('h1');
+            myH1.textContent = `各機場、港口入出境人數統計資料`;
+            header.appendChild(myH1);
+        }
+        function populateParking(obj) {
+            const section = document.querySelector('section');
+            const datas = obj['detail'];
+
+            for (const data of datas) {
+                const myArticle = document.createElement('article');
+                const myH3 = document.createElement('h3');
+                var i;
+                var myPara = [];
+                for (i = 0; i < 123; i++){
+                    var newLength = myPara.push(document.createElement('p'));
+                }
+                
+                myH3.textContent = `日期: ${data.日期}`;
+                i = 0;
+                for (var key in data) {
+                    myPara[i++].textContent = `${key}: ${data[key]}`;
+                }
+
+                myArticle.appendChild(myH3);
+                for (i = 1; i < 123; i++){
+                    myArticle.appendChild(myPara[i]);
+                }
+                section.appendChild(myArticle);
+            }
+        }
+        populate();
+    </script>
+</body>
+</html>
