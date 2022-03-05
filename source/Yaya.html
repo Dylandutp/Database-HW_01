@@ -9,7 +9,7 @@
     <section></section>
     <script>
         async function populate() {
-            const requestURL = 'museum.json';
+            const requestURL = './opendata/museum.json';
             const request = new Request(requestURL);
             const response = await fetch(request);
             const museums = await response.json();
