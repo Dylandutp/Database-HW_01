@@ -1,16 +1,15 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
 <head>
     <meta charset="utf-8">
-    <title>路邊停車資訊</title>
+    <title>路外停車資訊</title>
 </head>
 <body>
     <header></header>
     <section></section>
     <script>
         async function populate() {
-
-            const requestURL = './opendata/parkinglots.json';
+            const requestURL = './opendata/parkinglot.json';
             const request = new Request(requestURL);
 
             const response = await fetch(request);
@@ -18,37 +17,39 @@
 
             populateHeader(parkinglots);
             populateParking(parkinglots);
-
         }
         function populateHeader(obj) {
             const header = document.querySelector('header');
             const myH1 = document.createElement('h1');
-            myH1.textContent = `路邊停車資訊`;
+            myH1.textContent = `路外停車資訊`;
             header.appendChild(myH1);
         }
-
         function populateParking(obj) {
             const section = document.querySelector('section');
-            const roads = obj['detail'];
+            const datas = obj['parkingLots'];
 
-            for (const road of roads) {
+            for (const data of datas) {
                 const myArticle = document.createElement('article');
                 const myH3 = document.createElement('h3');
-                const myPara1 = document.createElement('p');
-                const myPara2 = document.createElement('p');
-
-                myH3.textContent = `路段代碼: ${road.rdid}`;
-                myPara1.textContent = `剩餘車格數: ${road.lavecnt}`;
-                myPara2.textContent = `最後更新時間: ${road.lasttime}`;
+                var i;
+                var myPara = [];
+                for (i = 0; i < 11; i++){
+                    var newLength = myPara.push(document.createElement('p'));
+                }
+                
+                myH3.textContent = `${data.areaName} ${data.parkName}`
+                i = 0;
+                for (var key in data) {
+                    myPara[i++].textContent = `${key}: ${data[key]}`;
+                }
 
                 myArticle.appendChild(myH3);
-                myArticle.appendChild(myPara1);
-                myArticle.appendChild(myPara2);
-
+                for (i = 3; i < 11; i++){
+                    myArticle.appendChild(myPara[i]);
+                }
                 section.appendChild(myArticle);
             }
         }
-
         populate();
     </script>
 </body>
